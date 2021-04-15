@@ -1,8 +1,20 @@
 const router = require('express').Router()
-router.get('/', (req, res) => {
-  res.json('auth ok')
+
+const User = require('../dataBase/models/User')
+const { passwordHasher } = require('../helpers')
+
+router.post('/', async (req, res) => {
+  const { email, password } = req.body
+
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    throw new Error('NO USER')
+  }
+
+  await passwordHasher.compare(password, user.password)
+
+  res.json('OK')
 })
-router.post('/', (req, res) => {
-  res.json('created')
-})
+
 module.exports = router

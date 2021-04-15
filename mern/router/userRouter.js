@@ -1,6 +1,18 @@
 const router = require('express').Router()
-const UserController = require('../controller/user.controller')
 
-router.get('/', UserController.getAllUsers)
-router.post('/', UserController.createUser)
+const userController = require('../controller/user.controller')
+const { userMiddleware } = require('../middleware')
+
+router.get('/', userController.getAllUsers)
+
+router.get(
+  '/:userId',
+  userMiddleware.checkIsIdValid,
+  userController.getSingleUser
+)
+
+// router.post('/', userMiddleware.isUserValid, userController.createUser);
+
+router.post('/', userMiddleware.isUserValid, userController.createUser)
+
 module.exports = router

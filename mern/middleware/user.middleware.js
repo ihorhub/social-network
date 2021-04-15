@@ -1,5 +1,6 @@
 const { errorCodesEnum } = require('../constant')
 const { errorMessage } = require('../constant')
+const { userValidator } = require('../validators')
 module.exports = {
   checkIsValidId: (req, res, next) => {
     try {
@@ -12,18 +13,35 @@ module.exports = {
       res.status(400).json(e.message)
     }
   },
-  isUserValid: (req, res, next) => {
+
+  joiUserValid: (req, res, next) => {
     try {
-      const { name, password, prefer = 'en' } = req.body
-      if (!name || !password) {
-        throw new Error('some fild is empty')
+      const { error } = joiUserValidator.validate(req.body)
+
+      if (error) {
+        throw new ErrorHandler(
+          error.details[0].message,
+          errorCodesEnum.BAD_REQUEST
+        )
       }
-      if (password.length < 6) {
-        throw new Error(errorMessage.TO_WEAK_PASSWORD[prefer])
-      }
+
       next()
     } catch (e) {
-      res.status(400).json(e.message)
+      next(e)
     }
   },
+  // isUserValid: (req, res, next) => {
+  //   try {
+  //     const { name, password, prefer = 'en' } = req.body
+  //     if (!name || !password) {
+  //       throw new Error('some fild is empty')
+  //     }
+  //     if (password.length < 6) {
+  //       throw new Error(errorMessage.TO_WEAK_PASSWORD[prefer])
+  //     }
+  //     next()
+  //   } catch (e) {
+  //     res.status(400).json(e.message)
+  //   }
+  // },
 }
