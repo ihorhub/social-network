@@ -10,7 +10,7 @@ const userSchema = new Schema(
     name: { type: String, required: true },
     age: { type: Number, default: 16 },
     email: { type: String, require: true },
-    password: { type: String },
+    password: { type: String, select: false },
     note: [noteSubSchema],
   },
   { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } }

@@ -1,17 +1,18 @@
+const userService = require('../service/user.service')
 const { passwordHasher } = require('../helpers')
 
 module.exports = {
-  getAllUsers: async (req, res) => {
+  getAllUsers: async (req, res, next) => {
     try {
       const users = await userService.findUsers(req.query)
 
       res.json(users)
     } catch (e) {
-      res.status(418).json(e.message)
+      next(e)
     }
   },
 
-  getSingleUser: async (req, res) => {
+  getSingleUser: async (req, res, next) => {
     try {
       const { userId } = req.params
 
@@ -19,11 +20,11 @@ module.exports = {
 
       res.json(user)
     } catch (e) {
-      res.json(e.message)
+      next(e)
     }
   },
 
-  createUser: async (req, res) => {
+  createUser: async (req, res, next) => {
     try {
       const { password } = req.body
 
@@ -33,7 +34,21 @@ module.exports = {
 
       res.status(201).json('USERS IS CREATED')
     } catch (e) {
-      res.json(e.message)
+      next(e)
+    }
+  },
+
+  deleteUser: (req, res, next) => {
+    try {
+      const { userId } = req.params
+
+      if (userId !== req.user.id) {
+        throw new Error('Unauthorized')
+      }
+
+      res.json(`${userId} is deleted`)
+    } catch (e) {
+      next(e)
     }
   },
 }

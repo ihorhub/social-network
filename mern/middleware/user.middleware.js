@@ -1,35 +1,52 @@
-const { errorCodesEnum } = require('../constant')
-const { errorMessage } = require('../constant')
-const { userValidator } = require('../validators')
+  
+const { errorCodesEnum } = require('../constant');
+const ErrorHandler = require('../error/ErrorHandler');
+const { BAD_REQUEST } = require('../error/error.messages');
+const { userValidators } = require('../validators');
+const User = require('../dataBase/models/User');
+
 module.exports = {
-  checkIsValidId: (req, res, next) => {
+  checkIsIdValid: (req, res, next) => {
     try {
-      const userId = +req.params.userId
-      if (userId < 0 || !Number.isInteger(userId) || Number.isNaN(userId)) {
-        throw new Error('not valid id')
+      const { userId } = req.params;
+
+      if (userId.length < 24) {
+        throw new ErrorHandler(400, 4002);
       }
-      next()
+      next();
     } catch (e) {
-      res.status(400).json(e.message)
+      next(e);
     }
   },
-
-  joiUserValid: (req, res, next) => {
+  isUserValid: (req, res, next) => {
     try {
-      const { error } = joiUserValidator.validate(req.body)
+      const { error } = userValidators.createUserValidator.validate(req.body);
 
       if (error) {
-        throw new ErrorHandler(
-          error.details[0].message,
-          errorCodesEnum.BAD_REQUEST
-        )
+        throw new ErrorHandler(errorCodesEnum.BAD_REQUEST, BAD_REQUEST.customCode, error.details[0].message);
       }
-
-      next()
+      next();
     } catch (e) {
-      next(e)
+      next(e);
     }
   },
+  checkIsUserPresent: async (req, res, next) => {
+    try {
+      const { email } = req.body;
+
+      const user = await User.findOne({ email }).select('+password');
+
+      if (!user) {
+        throw new Error('NO USER');
+      }
+      req.user = user;
+
+      next();
+    } catch (e) {
+      next(e);
+    }
+  },
+};
   // isUserValid: (req, res, next) => {
   //   try {
   //     const { name, password, prefer = 'en' } = req.body

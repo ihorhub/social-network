@@ -1,20 +1,13 @@
 const router = require('express').Router()
 
-const User = require('../dataBase/models/User')
-const { passwordHasher } = require('../helpers')
+const { authController } = require('../controller')
+const { authMiddleware, userMiddleware } = require('../middleware')
 
-router.post('/', async (req, res) => {
-  const { email, password } = req.body
-
-  const user = await User.findOne({ email })
-
-  if (!user) {
-    throw new Error('NO USER')
-  }
-
-  await passwordHasher.compare(password, user.password)
-
-  res.json('OK')
-})
+router.post('/', userMiddleware.checkIsUserPresent, authController.authUser)
+router.post(
+  '/refresh',
+  authMiddleware.checkRefreshTokenMiddleware,
+  authController.refreshToken
+)
 
 module.exports = router
