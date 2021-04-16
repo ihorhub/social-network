@@ -1,4 +1,4 @@
-const apiRouter = require('express').Router()
+const router = require('express').Router()
 const userRouter = require('./userRouter')
 const authRouter = require('./authRouter')
 

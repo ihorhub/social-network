@@ -1,8 +1,12 @@
-const mailer = require('nodemailer')
+const nodemailer = require('nodemailer')
 const EmailTemplates = require('email-templates')
 const path = require('path')
 
-const { ROOT_EMAIL_PASSWORD, ROOT_EMAIL } = require('../configs/config')
+const {
+  ROOT_EMAIL_PASSWORD,
+  ROOT_EMAIL,
+  ROOT_EMAIL_SERVICE,
+} = require('../configs/config')
 const templatesInfo = require('../email-templates')
 
 const templateParser = new EmailTemplates({
@@ -11,8 +15,8 @@ const templateParser = new EmailTemplates({
   },
 })
 
-const transporter = mailer.createTransport({
-  service: 'gmail',
+const transporter = nodemailer.createTransport({
+  service: ROOT_EMAIL_SERVICE,
   auth: {
     user: ROOT_EMAIL,
     pass: ROOT_EMAIL_PASSWORD,
@@ -30,7 +34,7 @@ const sendMail = async (userMail, action, context) => {
     const html = await templateParser.render(templateInfo.templateName, context)
 
     return transporter.sendMail({
-      from: ' NO REPLY',
+      from: 'SocialNETWORK_ZNAYDYCK',
       to: userMail,
       subject: templateInfo.subject,
       html,
