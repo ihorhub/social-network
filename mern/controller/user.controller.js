@@ -1,5 +1,6 @@
-const userService = require('../service/user.service')
+const { userService, emailService } = require('../service')
 const { passwordHasher } = require('../helpers')
+const { emailActionsEnum } = require('../constant')
 
 module.exports = {
   getAllUsers: async (req, res, next) => {
@@ -31,7 +32,9 @@ module.exports = {
       const hasPassword = await passwordHasher.hash(password)
 
       await userService.createUser({ ...req.body, password: hasPassword })
-
+      await emailService.sendMail(email, emailActionsEnum.WELCOME, {
+        userName: email,
+      })
       res.status(201).json('USERS IS CREATED')
     } catch (e) {
       next(e)
