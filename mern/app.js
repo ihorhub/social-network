@@ -7,10 +7,9 @@ dotenv.config()
 // dotenvConfigOutput.config();
 
 const { MONGO_URL, PORT } = require('./configs/config')
-const apiRouter = require('./router/api.router')
+const apiRouter = require('./router/apiRouter')
 
 const app = express()
-
 _connectDB()
 
 app.use(express.json())

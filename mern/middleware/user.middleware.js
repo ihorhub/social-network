@@ -1,64 +1,66 @@
-  
-const { errorCodesEnum } = require('../constant');
-const ErrorHandler = require('../error/ErrorHandler');
-const { BAD_REQUEST } = require('../error/error.messages');
-const { userValidators } = require('../validators');
-const User = require('../dataBase/models/User');
+const { errorCodesEnum } = require('../constant')
+const ErrorHandler = require('../error/ErrorHandler')
+const { BAD_REQUEST } = require('../error/error.messages')
+const { userValidators } = require('../validators')
+const User = require('../dataBase/models/User')
 
 module.exports = {
   checkIsIdValid: (req, res, next) => {
     try {
-      const { userId } = req.params;
+      const { userId } = req.params
 
       if (userId.length < 24) {
-        throw new ErrorHandler(400, 4002);
+        throw new ErrorHandler(400, 4002)
       }
-      next();
+      next()
     } catch (e) {
-      next(e);
+      next(e)
     }
   },
   isUserValid: (req, res, next) => {
     try {
-      const { error } = userValidators.createUserValidator.validate(req.body);
+      const { error } = userValidators.createUserValidator.validate(req.body)
 
       if (error) {
-        throw new ErrorHandler(errorCodesEnum.BAD_REQUEST, BAD_REQUEST.customCode, error.details[0].message);
+        throw new ErrorHandler(
+          errorCodesEnum.BAD_REQUEST,
+          BAD_REQUEST.customCode,
+          error.details[0].message
+        )
       }
-      next();
+      next()
     } catch (e) {
-      next(e);
+      next(e)
     }
   },
   checkIsUserPresent: async (req, res, next) => {
     try {
-      const { email } = req.body;
+      const { email } = req.body
 
-      const user = await User.findOne({ email }).select('+password');
+      const user = await User.findOne({ email }).select('+password')
 
       if (!user) {
-        throw new Error('NO USER');
+        throw new Error('NO USER')
       }
-      req.user = user;
+      req.user = user
 
-      next();
+      next()
     } catch (e) {
-      next(e);
+      next(e)
     }
   },
-};
-  // isUserValid: (req, res, next) => {
-  //   try {
-  //     const { name, password, prefer = 'en' } = req.body
-  //     if (!name || !password) {
-  //       throw new Error('some fild is empty')
-  //     }
-  //     if (password.length < 6) {
-  //       throw new Error(errorMessage.TO_WEAK_PASSWORD[prefer])
-  //     }
-  //     next()
-  //   } catch (e) {
-  //     res.status(400).json(e.message)
-  //   }
-  // },
 }
+// isUserValid: (req, res, next) => {
+//   try {
+//     const { name, password, prefer = 'en' } = req.body
+//     if (!name || !password) {
+//       throw new Error('some fild is empty')
+//     }
+//     if (password.length < 6) {
+//       throw new Error(errorMessage.TO_WEAK_PASSWORD[prefer])
+//     }
+//     next()
+//   } catch (e) {
+//     res.status(400).json(e.message)
+//   }
+// },
