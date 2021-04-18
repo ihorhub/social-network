@@ -5,5 +5,4 @@ module.exports = {
   errorCodesEnum: require('./errorCodes.enum'),
   regexpEnum: require('./regexp.enum'),
   logAction: require('./logAction'),
-  errorMessage: require('./error.massage'),
 }

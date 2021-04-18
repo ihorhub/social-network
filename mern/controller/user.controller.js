@@ -1,13 +1,8 @@
-const { errorCodesEnum,logAction} = require('../constant')
-const {
-  userService,
-  emailService,
-  fileService,
-  authService,
-} = require('../service')
+const { errorCodesEnum, logAction } = require('../constant')
+const ErrorHandler = require('../error/errorHandler')
+const { userService, emailService, fileService } = require('../service')
 const { passwordHasher } = require('../helpers')
 const { emailActionsEnum } = require('../constant')
-c
 
 module.exports = {
   getAllUsers: async (req, res, next) => {
@@ -35,12 +30,16 @@ module.exports = {
   createUser: async (req, res, next) => {
     try {
       const {
-        body: { password, email },  avatar, } = req
+        body: { password, email },
+        avatar,
+      } = req
 
       const hasPassword = await passwordHasher.hash(password)
 
       const user = await userService.createUser({
-         ...req.body, password: hasPassword,})
+        ...req.body,
+        password: hasPassword,
+      })
 
       if (avatar) {
         const uploadPath = fileService.dirBuilder(
@@ -60,16 +59,18 @@ module.exports = {
     }
   },
 
-  deleteUser: (req, res, next) => {
+  deleteUser: async (req, res, next) => {
     try {
-      const { userId } = req.params      
+      const { userId } = req.params
 
       if (userId !== req.user.id) {
-        throw new Error('Unauthorized')
+        throw new ErrorHandler(errorCodesEnum.UNAUTHORIZED)
       }
-      const user = await userService.findUserById(userId);
-      await mailService.sendMail(user.email, emailActions.GOODBYE, {userName: user.name})
-      userService.deleteUser(userId);
+      const user = await userService.findUserById(userId)
+      await mailService.sendMail(user.email, emailActions.GOODBYE, {
+        userName: user.name,
+      })
+      userService.deleteUser(userId)
 
       res.json(`${userId}${logAction.USER_DELETED}`)
     } catch (e) {

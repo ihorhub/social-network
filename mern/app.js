@@ -1,22 +1,22 @@
-const express = require('express';)
-const path = require('path');
-const fileUpload =require('express-fileupload');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const express = require('express')
+const path = require('path')
+const fileUpload = require('express-fileupload')
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 
-dotenv.config();
+dotenv.config()
 // dotenvConfigOutput.config();
 
 const { MONGO_URL, PORT } = require('./configs/config')
 const apiRouter = require('./router/apiRouter')
 
-const app = express();
-_connectDB();
-app.use(fileUpload());
-app.use(express.json());
+const app = express()
+_connectDB()
+app.use(fileUpload())
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use('/', apiRouter);
+app.use('/', apiRouter)
 
 // eslint-disable-next-line no-unused-vars
 app.use('*', (err, req, res, next) => {
