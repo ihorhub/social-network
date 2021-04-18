@@ -8,4 +8,6 @@ module.exports = {
 
   updateUserById: (userId, updateObject) =>
     User.updateOne({ _id: userId }, { $set: updateObject }),
+
+  deleteUser: (userId) => User.findByIdAndDelete(userId),
 }

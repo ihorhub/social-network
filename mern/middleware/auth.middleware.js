@@ -15,8 +15,9 @@ module.exports = {
       const access_token = req.get(constants.AUTHORIZATION)
 
       if (!access_token) {
-        throw new Error('Token is required')
+        throw new ErrorHandler(errorCodesEnum.BAD_REQUEST, NO_TOKEN.customCode)
       }
+
       jwt.verify(access_token, JWT_ACCESS_SECRET, (err) => {
         if (err) {
           throw new ErrorHandler(
@@ -36,6 +37,7 @@ module.exports = {
           RECORD_NOT_FOUND.customCode
         )
       }
+
       req.user = tokens._user_id
 
       next()
@@ -51,6 +53,7 @@ module.exports = {
       if (!refresh_token) {
         throw new ErrorHandler(errorCodesEnum.BAD_REQUEST, NO_TOKEN.customCode)
       }
+
       jwt.verify(refresh_token, JWT_REFRESH_SECRET, (err) => {
         if (err) {
           throw new ErrorHandler(
@@ -59,6 +62,7 @@ module.exports = {
           )
         }
       })
+
       const tokens = await authService.findByParams({ refresh_token })
 
       if (!tokens) {
@@ -67,6 +71,7 @@ module.exports = {
           RECORD_NOT_FOUND.customCode
         )
       }
+
       req.tokenInfo = tokens
       next()
     } catch (e) {

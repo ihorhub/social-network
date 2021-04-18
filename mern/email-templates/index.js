@@ -6,7 +6,7 @@ module.exports = {
     subject: 'Welcome on board',
   },
 
-  [emailActionsEnum.USER_BLOCKED]: {
+  [emailActionsEnum.GOODBYE]: {
     templateName: 'user-blocked',
     subject: 'Your account was blocked',
   },

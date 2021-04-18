@@ -1,8 +1,9 @@
 const { errorCodesEnum } = require('../constant')
 const ErrorHandler = require('../error/ErrorHandler')
-const { BAD_REQUEST } = require('../error/error.messages')
+const { BAD_REQUEST, RECORD_NOT_FOUND } = require('../error/error.messages')
 const { userValidators } = require('../validators')
 const User = require('../dataBase/models/User')
+const { ID_MOT_VALID } = require('../error/error.messages')
 
 module.exports = {
   checkIsIdValid: (req, res, next) => {
@@ -10,7 +11,10 @@ module.exports = {
       const { userId } = req.params
 
       if (userId.length < 24) {
-        throw new ErrorHandler(400, 4002)
+        throw new ErrorHandler(
+          errorCodesEnum.BAD_REQUEST,
+          ID_MOT_VALID.customCode
+        )
       }
       next()
     } catch (e) {
@@ -40,7 +44,10 @@ module.exports = {
       const user = await User.findOne({ email }).select('+password')
 
       if (!user) {
-        throw new Error('NO USER')
+        throw new ErrorHandler(
+          errorCodesEnum.NOT_FOUND,
+          RECORD_NOT_FOUND.customCode
+        )
       }
       req.user = user
 
@@ -50,17 +57,3 @@ module.exports = {
     }
   },
 }
-// isUserValid: (req, res, next) => {
-//   try {
-//     const { name, password, prefer = 'en' } = req.body
-//     if (!name || !password) {
-//       throw new Error('some fild is empty')
-//     }
-//     if (password.length < 6) {
-//       throw new Error(errorMessage.TO_WEAK_PASSWORD[prefer])
-//     }
-//     next()
-//   } catch (e) {
-//     res.status(400).json(e.message)
-//   }
-// },
