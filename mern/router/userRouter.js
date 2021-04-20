@@ -10,17 +10,21 @@ const {
 router.get('/', userController.getAllUsers)
 
 router.post(
-  '/',
+  '/register',
   fileMiddleware.checkFile,
   fileMiddleware.checkAvatar,
   userMiddleware.isUserValid,
   userController.createUser
 )
 
-router.use('/:userId', userMiddleware.checkIsIdValid)
-router.get('/:userId', userController.getSingleUser)
-router.delete(
+router.get(
   '/:userId',
+  userMiddleware.checkIsIdValid,
+  userController.getSingleUser
+)
+router.delete(
+  '/delete/:userId',
+  userMiddleware.checkIsIdValid,
   authMiddleware.checkAccessTokenMiddleware,
   userController.deleteUser
 )
