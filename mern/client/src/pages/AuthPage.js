@@ -42,10 +42,10 @@ export const AuthPage = () => {
   return (
     <div className="row">
       <div className="col s6 offset-s3">
-        <h1>Сократи Ссылку</h1>
+        <h1>SOCIAL NETWORK</h1>
         <div className="card blue darken-1">
           <div className="card-content white-text">
-            <span className="card-title">Авторизация</span>
+            <span className="card-title">Registration</span>
             <div>
               <div className="input-field">
                 <input
