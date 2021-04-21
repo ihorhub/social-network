@@ -12,7 +12,8 @@ const userSchema = new Schema(
     avatar: { type: String },
     notes: { type: String, minlength: 1 },
   },
-  { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } }
+  { timestamps: true }
 )
 
 module.exports = model(USER, userSchema)
+// toObject: { virtuals: true }, toJSON: { virtuals: true }

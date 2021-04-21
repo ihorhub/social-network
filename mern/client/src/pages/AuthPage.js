@@ -8,6 +8,7 @@ export const AuthPage = () => {
   const message = useMessage()
   const { loading, request, error, clearError } = useHttp()
   const [form, setForm] = useState({
+    name: '',
     email: '',
     password: '',
   })
@@ -27,7 +28,7 @@ export const AuthPage = () => {
 
   const registerHandler = async () => {
     try {
-      const data = await request('/user/register', 'POST', { ...form })
+      const data = await request('/users/register', 'POST', { ...form })
       message(data.message)
     } catch (e) {}
   }
@@ -50,9 +51,9 @@ export const AuthPage = () => {
               <div className="input-field">
                 <input
                   placeholder="Введіть ім'я "
-                  id="email"
+                  id="name"
                   type="text"
-                  name="nam"
+                  name="name"
                   className="yellow-input"
                   value={form.name}
                   onChange={changeHandler}

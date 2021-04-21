@@ -16,7 +16,7 @@ const templateParser = new EmailTemplates({
 })
 
 const transporter = nodemailer.createTransport({
-  service: ROOT_EMAIL_SERVICE,
+  service: 'gmail',
   auth: {
     user: ROOT_EMAIL,
     pass: ROOT_EMAIL_PASSWORD,

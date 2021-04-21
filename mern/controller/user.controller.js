@@ -1,4 +1,5 @@
 const { errorCodesEnum, logAction } = require('../constant')
+
 const ErrorHandler = require('../error/errorHandler')
 const { userService, emailService, fileService } = require('../service')
 const { passwordHasher } = require('../helpers')
@@ -40,7 +41,7 @@ module.exports = {
         ...req.body,
         password: hasPassword,
       })
-
+      await user.save()
       if (avatar) {
         const uploadPath = fileService.dirBuilder(
           avatar.name,
@@ -50,6 +51,7 @@ module.exports = {
 
         await userService.updateUserById(user._id, { avatar: uploadPath })
       }
+
       await emailService.sendMail(email, emailActionsEnum.WELCOME, {
         userName: email,
       })
@@ -67,6 +69,7 @@ module.exports = {
         throw new ErrorHandler(errorCodesEnum.UNAUTHORIZED)
       }
       const user = await userService.findUserById(userId)
+
       await mailService.sendMail(user.email, emailActions.GOODBYE, {
         userName: user.name,
       })

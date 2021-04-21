@@ -9,7 +9,7 @@ module.exports = {
         body: { password },
         user,
       } = req
-
+      console.log(req.body)
       await passwordHasher.compare(password, user.password)
 
       const tokens = await authService.createRecord(user._id)
@@ -23,7 +23,7 @@ module.exports = {
   refreshToken: async (req, res, next) => {
     try {
       const { _user_id, _id } = req.tokenInfo
-
+      console.log(req.tokenInfo)
       const tokens = tokenizer()
 
       await authService.updateById(_id, { ...tokens, _user_id })

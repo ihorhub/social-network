@@ -1,9 +1,13 @@
 const { errorCodesEnum } = require('../constant')
 const ErrorHandler = require('../error/ErrorHandler')
-const { BAD_REQUEST, RECORD_NOT_FOUND } = require('../error/error.messages')
-const { userValidators } = require('../validators')
+const {
+  BAD_REQUEST,
+  RECORD_NOT_FOUND,
+  WRONG_EMAIL_OF_PASSWORD,
+  ID_MOT_VALID,
+} = require('../error/error.messages')
+const { userValidator } = require('../validators')
 const User = require('../dataBase/models/User')
-const { ID_MOT_VALID } = require('../error/error.messages')
 
 module.exports = {
   checkIsIdValid: (req, res, next) => {
@@ -23,7 +27,7 @@ module.exports = {
   },
   isUserValid: (req, res, next) => {
     try {
-      const { error } = userValidators.createUserValidator.validate(req.body)
+      const { error } = userValidator.createUserValidator.validate(req.body)
 
       if (error) {
         throw new ErrorHandler(
@@ -44,6 +48,25 @@ module.exports = {
       const user = await User.findOne({ email }).select('+password')
 
       if (!user) {
+        throw new ErrorHandler(
+          errorCodesEnum.FORBIDDEN,
+          WRONG_EMAIL_OF_PASSWORD.customCode
+        )
+      }
+      req.user = user
+
+      next()
+    } catch (e) {
+      next(e)
+    }
+  },
+  checkIsUserRegister: async (req, res, next) => {
+    try {
+      const { email } = req.body
+
+      const user = await User.findOne({ email }).select('+password')
+
+      if (user) {
         throw new ErrorHandler(
           errorCodesEnum.NOT_FOUND,
           RECORD_NOT_FOUND.customCode

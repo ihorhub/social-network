@@ -11,9 +11,10 @@ router.get('/', userController.getAllUsers)
 
 router.post(
   '/register',
-  fileMiddleware.checkFile,
-  fileMiddleware.checkAvatar,
+  // fileMiddleware.checkFile,
+  // fileMiddleware.checkAvatar,
   userMiddleware.isUserValid,
+  userMiddleware.checkIsUserRegister,
   userController.createUser
 )
 

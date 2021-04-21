@@ -1,24 +1,28 @@
 import React from 'react'
-import {Switch, Route, Redirect} from 'react-router-dom'
-import {LinksPage} from './pages/LinksPage'
-import {CreatePage} from './pages/CreatePage'
-import {DetailPage} from './pages/DetailPage'
-import {AuthPage} from './pages/AuthPage'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { friends } from './components/friends/friends'
+import { posts } from './components/posts/posts'
+import { comments } from './components/comments/comments'
+import { users } from './components/users/users'
+import { AuthPage } from './pages/AuthPage'
 
-export const useRoutes = isAuthenticated => {
+export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
-        <Route path="/links" exact>
-          <LinksPage />
+        <Route path="/friends" exact>
+          <friends />
         </Route>
-        <Route path="/create" exact>
-          <CreatePage />
+        <Route path="/posts" exact>
+          <posts />
         </Route>
-        <Route path="/detail/:id">
-          <DetailPage />
+        <Route path="/users" exact>
+          <users />
         </Route>
-        <Redirect to="/create" />
+        <Route path="/comments/:id">
+          <comments />
+        </Route>
+        <Redirect to="/users" />
       </Switch>
     )
   }

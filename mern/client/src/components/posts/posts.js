@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function users() {
+export function posts() {
   return (
     <div>
-      <h1>user</h1>
+      <h1>post</h1>
     </div>
   )
 }
