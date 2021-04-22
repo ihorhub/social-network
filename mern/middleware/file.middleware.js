@@ -1,3 +1,9 @@
+const ErrorHandler = require('../error/errorHandler')
+const {
+  JUST_ONE_PHOTO,
+  TOO_BIG_FILE,
+  WRONG_FILE_EXTENSION,
+} = require('../error/error.messages')
 const {
   DOCS_MIMETYPES,
   FILE_MAX_SIZE,
@@ -23,26 +29,29 @@ module.exports = {
         if (PHOTOS_MIMETYPES.includes(mimetype)) {
           // PHOTO
           if (PHOTO_MAX_SIZE < size) {
-            throw new Error(`file ${name} is too big`)
+            throw new ErrorHandler(TOO_BIG_FILE.message, TOO_BIG_FILE.code)
           }
 
           photos.push(allFiles[i])
         } else if (DOCS_MIMETYPES.includes(mimetype)) {
           // doc
           if (FILE_MAX_SIZE < size) {
-            throw new Error(`file ${name} is too big`)
+            throw new ErrorHandler(TOO_BIG_FILE.message, TOO_BIG_FILE.code)
           }
 
           docs.push(allFiles[i])
         } else if (VIDEOS_MIMETYPES.includes(mimetype)) {
           // video
           if (VIDEO_MAX_SIZE < size) {
-            throw new Error(`file ${name} is too big`)
+            throw new ErrorHandler(TOO_BIG_FILE.message, TOO_BIG_FILE.code)
           }
 
           videos.push(allFiles[i])
         } else {
-          throw new Error('Not valid file')
+          throw new ErrorHandler(
+            WRONG_FILE_EXTENSION.message,
+            WRONG_FILE_EXTENSION.code
+          )
         }
       }
 
@@ -59,7 +68,7 @@ module.exports = {
   checkAvatar: (req, res, next) => {
     try {
       if (req.photos.length > 1) {
-        throw new Error('You can upload just one photo')
+        throw new ErrorHandler(JUST_ONE_PHOTO.message, JUST_ONE_PHOTO.code)
       }
 
       ;[req.avatar] = req.photos

@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken')
 const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = require('../configs/config')
-const { constants, errorCodesEnum } = require('../constant')
+const { constants } = require('../constant')
 const ErrorHandler = require('../error/errorHandler')
 const {
-  NO_TOKEN,
-  WRONG_TOKEN,
-  RECORD_NOT_FOUND,
+  NOT_VALID_TOKEN,
+  PERMISSION_DENIED,
 } = require('../error/error.messages')
 const { authService } = require('../service')
 
@@ -15,15 +14,12 @@ module.exports = {
       const access_token = req.get(constants.AUTHORIZATION)
 
       if (!access_token) {
-        throw new ErrorHandler(errorCodesEnum.BAD_REQUEST, NO_TOKEN.customCode)
+        throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code)
       }
 
       jwt.verify(access_token, JWT_ACCESS_SECRET, (err) => {
         if (err) {
-          throw new ErrorHandler(
-            errorCodesEnum.UNAUTHORIZED,
-            WRONG_TOKEN.customCode
-          )
+          throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code)
         }
       })
 
@@ -33,8 +29,8 @@ module.exports = {
 
       if (!tokens) {
         throw new ErrorHandler(
-          errorCodesEnum.NOT_FOUND,
-          RECORD_NOT_FOUND.customCode
+          PERMISSION_DENIED.message,
+          PERMISSION_DENIED.code
         )
       }
 
@@ -51,15 +47,12 @@ module.exports = {
       const refresh_token = req.get(constants.AUTHORIZATION)
 
       if (!refresh_token) {
-        throw new ErrorHandler(errorCodesEnum.BAD_REQUEST, NO_TOKEN.customCode)
+        throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code)
       }
 
       jwt.verify(refresh_token, JWT_REFRESH_SECRET, (err) => {
         if (err) {
-          throw new ErrorHandler(
-            errorCodesEnum.UNAUTHORIZED,
-            WRONG_TOKEN.customCode
-          )
+          throw new ErrorHandler(NOT_VALID_TOKEN.message, NOT_VALID_TOKEN.code)
         }
       })
 
@@ -67,8 +60,8 @@ module.exports = {
 
       if (!tokens) {
         throw new ErrorHandler(
-          errorCodesEnum.NOT_FOUND,
-          RECORD_NOT_FOUND.customCode
+          PERMISSION_DENIED.message,
+          PERMISSION_DENIED.code
         )
       }
 

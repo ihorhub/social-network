@@ -6,8 +6,9 @@ const {
 const userSchema = new Schema(
   {
     name: { type: String, required: true },
-    age: { type: Number, default: 16 },
-    email: { type: String, require: true },
+    surname: { type: String, required: true },
+    age: { type: String },
+    email: { type: String, required: true },
     password: { type: String, select: false },
     avatar: { type: String },
     notes: { type: String, minlength: 1 },

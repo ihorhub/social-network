@@ -1,9 +1,12 @@
 import React from 'react'
 
-export function posts() {
+export function Posts() {
   return (
     <div>
-      <h1>post</h1>
+      <h1> My post</h1>
+      <div>
+        <textarea onChange={onPostChange}
+      </div>
     </div>
   )
 }

@@ -9,20 +9,18 @@ const {
 } = require('../configs/config')
 const templatesInfo = require('../email-templates')
 
+const transporter = nodemailer.createTransport({
+  service: ROOT_EMAIL_SERVICE,
+  auth: {
+    pass: ROOT_EMAIL_PASSWORD,
+    user: ROOT_EMAIL,
+  },
+})
 const templateParser = new EmailTemplates({
   views: {
     root: path.join(process.cwd(), 'email-templates'),
   },
 })
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: ROOT_EMAIL,
-    pass: ROOT_EMAIL_PASSWORD,
-  },
-})
-
 const sendMail = async (userMail, action, context) => {
   try {
     const templateInfo = templatesInfo[action]

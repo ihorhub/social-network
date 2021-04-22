@@ -7,7 +7,7 @@ const {
   fileMiddleware,
 } = require('../middleware')
 
-router.get('/', userController.getAllUsers)
+router.get('/all', userController.getAllUsers)
 
 router.post(
   '/register',

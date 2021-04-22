@@ -15,24 +15,20 @@ export const useHttp = () => {
 
         const response = await fetch(url, { method, body, headers })
         const data = await response.json()
-
         if (!response.ok) {
           throw new Error(data.message || 'щось пішло не так')
         }
-
         setLoading(false)
 
         return data
       } catch (e) {
         setLoading(false)
         setError(e.message)
-        throw e
+        throw e('я http hook')
       }
     },
     []
   )
-
   const clearError = useCallback(() => setError(null), [])
-
   return { loading, request, error, clearError }
 }

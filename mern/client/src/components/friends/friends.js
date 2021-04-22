@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function friends() {
+export function Friends() {
   return (
     <div>
       <h1> friends</h1>

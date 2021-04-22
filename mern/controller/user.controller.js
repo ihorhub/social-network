@@ -1,9 +1,9 @@
-const { errorCodesEnum, logAction } = require('../constant')
-
+const { errorCodesEnum, logAction, emailActionsEnum } = require('../constant')
+const { WELCOME } = require('../constant/emailActions.enum')
 const ErrorHandler = require('../error/errorHandler')
+const { PERMISSION_DENIED } = require('../error/error.messages')
 const { userService, emailService, fileService } = require('../service')
 const { passwordHasher } = require('../helpers')
-const { emailActionsEnum } = require('../constant')
 
 module.exports = {
   getAllUsers: async (req, res, next) => {
@@ -41,7 +41,7 @@ module.exports = {
         ...req.body,
         password: hasPassword,
       })
-      await user.save()
+      // await user.save()
       if (avatar) {
         const uploadPath = fileService.dirBuilder(
           avatar.name,
@@ -52,10 +52,10 @@ module.exports = {
         await userService.updateUserById(user._id, { avatar: uploadPath })
       }
 
-      await emailService.sendMail(email, emailActionsEnum.WELCOME, {
+      await emailService.sendMail(email, WELCOME, {
         userName: email,
       })
-      res.status(errorCodesEnum.CREATED).json(logAction.USER_CREATED)
+      res.status(200).json(logAction.USER_CREATED)
     } catch (e) {
       next(e)
     }
@@ -66,7 +66,10 @@ module.exports = {
       const { userId } = req.params
 
       if (userId !== req.user.id) {
-        throw new ErrorHandler(errorCodesEnum.UNAUTHORIZED)
+        throw new ErrorHandler(
+          PERMISSION_DENIED.message,
+          PERMISSION_DENIED.code
+        )
       }
       const user = await userService.findUserById(userId)
 
@@ -75,7 +78,7 @@ module.exports = {
       })
       userService.deleteUser(userId)
 
-      res.json(`${userId}${logAction.USER_DELETED}`)
+      res.status(errorCodesEnum.DELETE).json(logAction.USER_DELETED)
     } catch (e) {
       next(e)
     }

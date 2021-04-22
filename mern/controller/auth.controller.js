@@ -1,5 +1,5 @@
 const { passwordHasher, tokenizer } = require('../helpers')
-const ErrorHandler = require('../error/ErrorHandler')
+const { errorCodesEnum, logAction } = require('../constant')
 const { authService } = require('../service')
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 
       const tokens = await authService.createRecord(user._id)
 
-      res.json(tokens)
+      res.status(errorCodesEnum.OK, logAction.USER_LOGGED_IN).json(tokens)
     } catch (e) {
       next(e)
     }

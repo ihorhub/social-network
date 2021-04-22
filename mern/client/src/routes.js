@@ -1,32 +1,32 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { friends } from './components/friends/friends'
-import { posts } from './components/posts/posts'
-import { comments } from './components/comments/comments'
-import { users } from './components/users/users'
+import { Friends } from './components/friends/friends'
+import { Posts } from './components/posts/posts'
+import { Comments } from './components/comments/comments'
+import { Users } from './components/users/users'
+
 import { AuthPage } from './pages/AuthPage'
 
-export const useRoutes = (isAuthenticated) => {
+const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
         <Route path="/friends" exact>
-          <friends />
+          <Friends />
         </Route>
         <Route path="/posts" exact>
-          <posts />
+          <Posts />
         </Route>
-        <Route path="/users" exact>
-          <users />
+        <Route path="/users/all" exact>
+          <Users />
         </Route>
         <Route path="/comments/:id">
-          <comments />
+          <Comments />
         </Route>
         <Redirect to="/users" />
       </Switch>
     )
   }
-
   return (
     <Switch>
       <Route path="/" exact>
@@ -36,3 +36,4 @@ export const useRoutes = (isAuthenticated) => {
     </Switch>
   )
 }
+export default useRoutes
