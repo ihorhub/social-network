@@ -55,7 +55,20 @@ module.exports = {
       await emailService.sendMail(email, WELCOME, {
         userName: email,
       })
-      res.status(200).json(logAction.USER_CREATED)
+      res.status(errorCodesEnum.OK).json(logAction.USER_CREATED)
+    } catch (e) {
+      next(e)
+    }
+  },
+
+  updateUsers: async (req, res, next) => {
+    try {
+      const { userId } = req.params
+      const user = req.body
+
+      await userService.updateUserById(req.user, userId)
+
+      res.status(errorCodesEnum.OK).json(logAction.USER_UPDATED)
     } catch (e) {
       next(e)
     }

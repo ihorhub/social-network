@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 
 const UsersList = ({ user }) => {
   console.log(user)
-  const addPost = () => {}
+  const addComment = () => {}
   return (
     <div>
       <div>
@@ -13,7 +13,7 @@ const UsersList = ({ user }) => {
         <p> age: {user.age}--</p>
         <p> Email: {user.email}-</p>
         <p> Comment: {user.notes}-</p>
-        <button onClick={() => addPost()}>writePost</button>
+        <button onClick={() => addComment()}>writeComment</button>
         <hr />
       </div>
     </div>

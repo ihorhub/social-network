@@ -23,7 +23,7 @@ export const Navbar = (getUsers) => {
         <span className="brand-logo">SOCIAL NETWORK</span>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
           <li style={{ margin: '0 5px' }}>
-            <NavLink to={'/posts'}>
+            <NavLink to={'/users/posts'}>
               <button>set post</button>
             </NavLink>
           </li>

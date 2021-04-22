@@ -17,6 +17,15 @@ router.post(
   userMiddleware.checkIsUserRegister,
   userController.createUser
 )
+router.post(
+  '/post',
+  // fileMiddleware.checkFile,
+  // fileMiddleware.checkAvatar,
+  userMiddleware.checkIsIdValid,
+  userMiddleware.isPostValid,
+  authMiddleware.checkAccessTokenMiddleware,
+  userController.updateUsers
+)
 
 router.get(
   '/:userId',

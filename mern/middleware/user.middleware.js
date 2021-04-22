@@ -5,7 +5,7 @@ const {
   NOT_VALID_ID,
   PERMISSION_DENIED,
 } = require('../error/error.messages')
-const { userValidator } = require('../validators')
+const { userValidator, postValidator } = require('../validators')
 const User = require('../dataBase/models/User')
 
 module.exports = {
@@ -25,6 +25,19 @@ module.exports = {
   isUserValid: (req, res, next) => {
     try {
       const { error } = userValidator.createUserValidator.validate(req.body)
+
+      if (error)
+        throw new ErrorHandler(error.details[0].message, NOT_VALID_BODY.code)
+
+      next()
+    } catch (e) {
+      next(e)
+    }
+  },
+
+  isPostValid: (req, res, next) => {
+    try {
+      const { error } = postValidator.createPostValidator.validate(req.body)
 
       if (error)
         throw new ErrorHandler(error.details[0].message, NOT_VALID_BODY.code)

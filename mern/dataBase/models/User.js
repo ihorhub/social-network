@@ -11,7 +11,7 @@ const userSchema = new Schema(
     email: { type: String, required: true },
     password: { type: String, select: false },
     avatar: { type: String },
-    notes: { type: String, minlength: 1 },
+    post: { type: String, minlength: 1 },
   },
   { timestamps: true }
 )
