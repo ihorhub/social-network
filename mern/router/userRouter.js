@@ -12,17 +12,28 @@ router.get('/all', userController.getAllUsers)
 
 router.post(
   '/register',
-  fileMiddleware.checkFile,
-  fileMiddleware.checkAvatar,
-  // userMiddleware.isUserValid,
-  // userMiddleware.checkIsUserRegister,
+  userMiddleware.isUserValid,
+  userMiddleware.checkIsUserRegister,
   userController.createUser
 )
+// router.post('/register', (req, res, next) => {
+//   console.log(req)
+//   next()
+// }),
 router.post(
   '/post',
   // userMiddleware.checkIsIdValid,
   postMiddleware.isPostValid,
   postMiddleware.checkPostMiddleware,
+  authMiddleware.checkAccessTokenMiddleware,
+  userController.createPost
+)
+
+router.post(
+  '/',
+  userMiddleware.checkIsIdValid,
+  fileMiddleware.checkFile,
+  fileMiddleware.checkAvatar,
   authMiddleware.checkAccessTokenMiddleware,
   userController.createPost
 )

@@ -4,7 +4,7 @@ import { Friends } from './components/friends/friends'
 import { Posts } from './components/posts/posts'
 import { Comments } from './components/comments/comments'
 import { Users } from './components/users/users'
-
+import { MainPage } from './pages/MainPage.js'
 import { AuthPage } from './pages/AuthPage'
 
 const useRoutes = (isAuthenticated) => {
@@ -23,6 +23,9 @@ const useRoutes = (isAuthenticated) => {
         </Route>
         <Route path="/comments/:id">
           <Comments />
+        </Route>
+        <Route path="/users">
+          <MainPage />
         </Route>
         <Redirect to="/users" />
       </Switch>

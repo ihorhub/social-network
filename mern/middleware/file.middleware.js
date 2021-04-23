@@ -22,12 +22,12 @@ module.exports = {
       const videos = []
 
       const allFiles = Object.values(files)
-
+      console.log(files)
       for (let i = 0; i < allFiles.length; i++) {
-        const { name, size, mimetype } = allFiles[i]
+        const { size, mimetype } = allFiles[i]
 
         if (PHOTOS_MIMETYPES.includes(mimetype)) {
-          // PHOTO
+          PHOTO
           if (PHOTO_MAX_SIZE < size) {
             throw new ErrorHandler(TOO_BIG_FILE.message, TOO_BIG_FILE.code)
           }
@@ -41,11 +41,10 @@ module.exports = {
 
           docs.push(allFiles[i])
         } else if (VIDEOS_MIMETYPES.includes(mimetype)) {
-          // video
+          video
           if (VIDEO_MAX_SIZE < size) {
             throw new ErrorHandler(TOO_BIG_FILE.message, TOO_BIG_FILE.code)
           }
-
           videos.push(allFiles[i])
         } else {
           throw new ErrorHandler(
@@ -67,7 +66,7 @@ module.exports = {
 
   checkAvatar: (req, res, next) => {
     try {
-      if (req.photos.length > 1) {
+      if (req.file.length > 1) {
         throw new ErrorHandler(JUST_ONE_PHOTO.message, JUST_ONE_PHOTO.code)
       }
 

@@ -14,7 +14,6 @@ module.exports = {
   getAllUsers: async (req, res, next) => {
     try {
       const users = await userService.findUsers(req.query)
-
       res.json(users)
     } catch (e) {
       next(e)
@@ -38,6 +37,7 @@ module.exports = {
       const {
         body: { password, email },
         avatar,
+        docs,
       } = req
 
       const hasPassword = await passwordHasher.hash(password)
@@ -46,15 +46,17 @@ module.exports = {
         ...req.body,
         password: hasPassword,
       })
-      // await user.save()
+      await user.save()
       if (avatar) {
         const uploadPath = fileService.dirBuilder(
+          avatar,
           avatar.name,
           'photos',
+          'user',
           user._id
         )
 
-        await userService.updateUserById(user._id, { avatar: uploadPath })
+        await userService.updateUser(user._id, { avatar: uploadPath })
       }
 
       await emailService.sendMail(email, WELCOME, {
