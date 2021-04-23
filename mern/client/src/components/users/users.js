@@ -8,6 +8,7 @@ export const Users = () => {
   const [user, setUsers] = useState([])
   const { request, loading } = useHttp()
   const { tokens } = useContext(AuthContext)
+
   const getUsers = useCallback(async () => {
     try {
       const data = await request('/users/all', 'GET', null, {

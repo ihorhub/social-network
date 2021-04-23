@@ -1,21 +1,18 @@
-import React, {  useContext, useEffect, useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useHttp } from '../../hooks/http.hook'
 import { AuthContext } from '../../context/AuthContext'
-import { Loader } from '../Loader'
-// import PostList from './postList'
+// import { Loader } from '../Loader'
+import PostList from './postList'
 
 export const Posts = () => {
-  
-  const [userPost, setUserPost] = useState({
-    post: ''   
-  })
-  const { request, loading } = useHttp()
+  const [userPost, setUserPost] = useState({ post: '' })
+  const { request } = useHttp()
   const { tokens } = useContext(AuthContext)
 
   const onPostChange = (event) => {
-    setUserPost({ ...userPost, [event.target.name]: event.target.value })   
+    setUserPost({ ...userPost, [event.target.name]: event.target.value })
   }
-
+  console.log(userPost)
   useEffect(() => {
     window.M.updateTextFields()
   }, [])
@@ -30,18 +27,12 @@ export const Posts = () => {
       )
       console.log(data)
     } catch (e) {}
-  }, 
-
-  
+  }
 
   return (
     <div>
       <h1> My post</h1>
-      {/* <div>
-        {userPost.map((p) => (
-          <PostList p={p} />
-        ))}
-      </div> */}
+      <div></div>
       <div className="input-field">
         <input
           placeholder="Введіть post "
@@ -49,14 +40,15 @@ export const Posts = () => {
           type="text"
           name="post"
           className="yellow-input"
-          value={userPost}
+          value={userPost.post}
           onChange={onPostChange}
         />
         <label htmlFor="post">Post</label>
       </div>
       <div>
-        <button onClick={addPost}>ADD post</button>
+        <button onClick={() => addPost}>ADD post</button>
       </div>
+      <PostList userPost={userPost} />
     </div>
   )
 }

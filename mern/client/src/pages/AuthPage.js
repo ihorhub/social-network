@@ -13,6 +13,7 @@ export const AuthPage = () => {
     age: '',
     email: '',
     password: '',
+    post: '',
   })
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export const AuthPage = () => {
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
-
+  console.log(form)
   const registerHandler = async () => {
     try {
       const data = await request('/users/register', 'POST', { ...form })

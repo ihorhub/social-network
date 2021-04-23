@@ -8,4 +8,5 @@ module.exports = Joi.object({
     .max(constants.CURRENT_YEAR),
   email: Joi.string().regex(regexpEnum.EMAIL_REGEXP).required(),
   password: Joi.string().regex(regexpEnum.PASSWORD_REGEXP).required(),
+  post: Joi.any(),
 })

@@ -1,14 +1,15 @@
 import React from 'react'
 import { withRouter } from 'react-router'
 
-const PostList = ({ p }) => {
-  console.log(p)
-  const addCommentToPost = () => {}
+const PostList = ({ userPost }) => {
+  console.log(userPost)
+  //   const addCommentToPost = () => {}
   return (
     <div>
       <div>
-        <p> Post: {p.notes}-</p>
-        <button onClick={() => addCommentToPost()}>writePost</button>
+        {userPost.map((p) => {
+          return <div>Post--{p.post}</div>
+        })}
         <hr />
       </div>
     </div>

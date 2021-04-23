@@ -5,6 +5,7 @@ const {
   authMiddleware,
   userMiddleware,
   fileMiddleware,
+  postMiddleware,
 } = require('../middleware')
 
 router.get('/all', userController.getAllUsers)
@@ -21,10 +22,11 @@ router.post(
   '/post',
   // fileMiddleware.checkFile,
   // fileMiddleware.checkAvatar,
-  userMiddleware.checkIsIdValid,
-  userMiddleware.isPostValid,
-  authMiddleware.checkAccessTokenMiddleware,
-  userController.updateUsers
+  // userMiddleware.checkIsIdValid,
+  // postMiddleware.isPostValid,
+  postMiddleware.checkPostMiddleware,
+  // authMiddleware.checkAccessTokenMiddleware,
+  userController.createPost
 )
 
 router.get(

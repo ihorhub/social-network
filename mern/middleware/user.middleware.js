@@ -12,7 +12,7 @@ module.exports = {
   checkIsIdValid: (req, res, next) => {
     try {
       const { userId } = req.params
-
+      console.log(req.params)
       if (userId.length < 24) {
         throw new ErrorHandler(NOT_VALID_ID.message, NOT_VALID_ID.code)
       }
@@ -35,18 +35,6 @@ module.exports = {
     }
   },
 
-  isPostValid: (req, res, next) => {
-    try {
-      const { error } = postValidator.createPostValidator.validate(req.body)
-
-      if (error)
-        throw new ErrorHandler(error.details[0].message, NOT_VALID_BODY.code)
-
-      next()
-    } catch (e) {
-      next(e)
-    }
-  },
   checkIsUserPresent: async (req, res, next) => {
     try {
       const { email } = req.body

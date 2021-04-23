@@ -2,7 +2,12 @@ const { errorCodesEnum, logAction, emailActionsEnum } = require('../constant')
 const { WELCOME } = require('../constant/emailActions.enum')
 const ErrorHandler = require('../error/errorHandler')
 const { PERMISSION_DENIED } = require('../error/error.messages')
-const { userService, emailService, fileService } = require('../service')
+const {
+  userService,
+  emailService,
+  fileService,
+  postService,
+} = require('../service')
 const { passwordHasher } = require('../helpers')
 
 module.exports = {
@@ -64,9 +69,28 @@ module.exports = {
   updateUsers: async (req, res, next) => {
     try {
       const { userId } = req.params
-      const user = req.body
+      const { post } = req.body
+      console.log(req.body)
+      console.log(userId)
+      await userService.updateUserById(post, userId)
 
-      await userService.updateUserById(req.user, userId)
+      res.status(errorCodesEnum.OK).json(logAction.USER_UPDATED)
+    } catch (e) {
+      next(e)
+    }
+  },
+
+  createPost: async (req, res, next) => {
+    try {
+      const { userId } = req.params
+      const {
+        body: { post },
+        user,
+      } = req
+
+      console.log(post)
+      console.log(userId)
+      await postService.createPostRecord(user._id)
 
       res.status(errorCodesEnum.OK).json(logAction.USER_UPDATED)
     } catch (e) {
