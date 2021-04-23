@@ -14,6 +14,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path="/friends" exact>
           <Friends />
         </Route>
+
         <Route path="/users/posts" exact>
           <Posts />
         </Route>

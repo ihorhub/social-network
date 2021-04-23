@@ -38,6 +38,11 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li style={{ margin: '0 5px' }}>
+            <NavLink to={'/users'}>
+              <button>main</button>
+            </NavLink>
+          </li>
+          <li style={{ margin: '0 5px' }}>
             <button onClick={logoutHandler}>logout</button>
           </li>
         </ul>

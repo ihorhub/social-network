@@ -13,7 +13,7 @@ export const AuthPage = () => {
     age: '',
     email: '',
     password: '',
-    post: '',
+    avatar: '',
   })
 
   useEffect(() => {
@@ -116,6 +116,19 @@ export const AuthPage = () => {
                   onChange={changeHandler}
                 />
                 <label htmlFor="password">Password</label>
+              </div>
+
+              <div className="input-field">
+                <input
+                  placeholder="Введіть пароль"
+                  id="file"
+                  type="file"
+                  name="file"
+                  className="yellow-input"
+                  value={form.file}
+                  onChange={changeHandler}
+                />
+                <label htmlFor="file">avatar</label>
               </div>
 
               <div className="card-action">

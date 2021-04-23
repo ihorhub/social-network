@@ -12,23 +12,20 @@ router.get('/all', userController.getAllUsers)
 
 router.post(
   '/register',
-  // fileMiddleware.checkFile,
-  // fileMiddleware.checkAvatar,
-  userMiddleware.isUserValid,
-  userMiddleware.checkIsUserRegister,
+  fileMiddleware.checkFile,
+  fileMiddleware.checkAvatar,
+  // userMiddleware.isUserValid,
+  // userMiddleware.checkIsUserRegister,
   userController.createUser
 )
 router.post(
   '/post',
-  // fileMiddleware.checkFile,
-  // fileMiddleware.checkAvatar,
   // userMiddleware.checkIsIdValid,
-  // postMiddleware.isPostValid,
+  postMiddleware.isPostValid,
   postMiddleware.checkPostMiddleware,
-  // authMiddleware.checkAccessTokenMiddleware,
+  authMiddleware.checkAccessTokenMiddleware,
   userController.createPost
 )
-
 router.get(
   '/:userId',
   userMiddleware.checkIsIdValid,
@@ -40,5 +37,4 @@ router.delete(
   authMiddleware.checkAccessTokenMiddleware,
   userController.deleteUser
 )
-
 module.exports = router
