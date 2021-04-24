@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { useMessage } from '../hooks/message.hook'
-import axios from 'axios'
+// import axios from 'axios'
 
 export const MainPage = () => {
   const message = useMessage()
