@@ -11,6 +11,10 @@ const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
+        <Route path="/users" exact>
+          <MainPage />
+        </Route>
+
         <Route path="/friends" exact>
           <Friends />
         </Route>
@@ -24,9 +28,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path="/comments/:id">
           <Comments />
         </Route>
-        <Route path="/users">
-          <MainPage />
-        </Route>
+
         <Redirect to="/users" />
       </Switch>
     )

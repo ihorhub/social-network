@@ -5,7 +5,6 @@ import { AuthContext } from '../context/AuthContext'
 
 export const AuthPage = () => {
   const auth = useContext(AuthContext)
-
   const message = useMessage()
   const { loading, request, error, clearError } = useHttp()
   const [form, setForm] = useState({
@@ -28,7 +27,7 @@ export const AuthPage = () => {
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
-  console.log(form)
+
   const registerHandler = async () => {
     try {
       const data = await request('/users/register', 'POST', { ...form })

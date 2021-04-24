@@ -20,9 +20,9 @@ module.exports = {
       const docs = []
       const photos = []
       const videos = []
-
+      console.log(req)
       const allFiles = Object.values(files)
-      console.log(files)
+      console.log(allFiles)
       for (let i = 0; i < allFiles.length; i++) {
         const { size, mimetype } = allFiles[i]
 

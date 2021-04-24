@@ -30,11 +30,11 @@ router.post(
 )
 
 router.post(
-  '/',
-  userMiddleware.checkIsIdValid,
+  '/upload',
+
   fileMiddleware.checkFile,
   fileMiddleware.checkAvatar,
-  authMiddleware.checkAccessTokenMiddleware,
+  // authMiddleware.checkAccessTokenMiddleware,
   userController.createPost
 )
 router.get(
