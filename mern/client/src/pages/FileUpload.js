@@ -3,10 +3,11 @@ import { useHttp } from '../hooks/http.hook'
 import { useMessage } from '../hooks/message.hook'
 // import axios from 'axios'
 
-export const MainPage = () => {
+export const FileUpload = () => {
   const message = useMessage()
   const { error, clearError, request } = useHttp()
   const [userFile, setUserFile] = useState('')
+  const [userFileName, setUserFileName] = useState('Chose File')
 
   useEffect(() => {
     message(error)
@@ -18,9 +19,11 @@ export const MainPage = () => {
   }, [])
 
   const changeFormHandler = (e) => {
-    setUserFile({ userFile, [e.target.name]: e.target.files[0] })
-    console.log(e.target.name)
+    setUserFile(e.target.files[0])
+    setUserFileName(e.target.files[0].name)
+
     console.log(userFile)
+    console.log(userFileName)
   }
 
   const sendFileHandler = async (e) => {
@@ -51,6 +54,7 @@ export const MainPage = () => {
           {' '}
           <form onSubmit={sendFileHandler}>
             <input
+              id="customFile"
               placeholder="upload file"
               type="file"
               name="avatar"
@@ -69,3 +73,4 @@ export const MainPage = () => {
     </div>
   )
 }
+export default FileUpload

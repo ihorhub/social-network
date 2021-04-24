@@ -15,13 +15,16 @@ const {
 
 module.exports = {
   checkFile: (req, res, next) => {
+    if (req.files === nul) {
+      return res.status(400).json({ message: 'No file upload' })
+    }
     try {
-      const { files } = req
+      const file = req.files.file
       const docs = []
       const photos = []
       const videos = []
       console.log(req)
-      const allFiles = Object.values(files)
+      const allFiles = Object.values(file)
       console.log(allFiles)
       for (let i = 0; i < allFiles.length; i++) {
         const { size, mimetype } = allFiles[i]

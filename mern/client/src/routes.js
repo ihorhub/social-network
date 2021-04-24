@@ -4,15 +4,15 @@ import { Friends } from './components/friends/friends'
 import { Posts } from './components/posts/posts'
 import { Comments } from './components/comments/comments'
 import { Users } from './components/users/users'
-import { MainPage } from './pages/MainPage.js'
+import { FileUpload } from './pages/FileUpload.js'
 import { AuthPage } from './pages/AuthPage'
 
 const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
-        <Route path="/users" exact>
-          <MainPage />
+        <Route path="/users/upload" exact>
+          <FileUpload />
         </Route>
 
         <Route path="/friends" exact>

@@ -38,7 +38,7 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li style={{ margin: '0 5px' }}>
-            <NavLink to={'/users'}>
+            <NavLink to={'/users/upload'}>
               <button>home</button>
             </NavLink>
           </li>
