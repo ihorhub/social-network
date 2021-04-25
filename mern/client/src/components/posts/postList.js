@@ -1,18 +1,17 @@
 import React from 'react'
-import { withRouter } from 'react-router'
+// import { withRouter } from 'react-router'
 
-const PostList = ({ userPost }) => {
-  console.log(userPost)
+export const PostList = () => {
+  // console.log(post)
   //   const addCommentToPost = () => {}
   return (
     <div>
+      <h1> this page render my post</h1>
       <div>
-        {userPost.map((p) => {
-          return <div>Post--{p.post}</div>
-        })}
+        {/* <p> Post:--- {post.post}--</p> */}
         <hr />
       </div>
     </div>
   )
 }
-export default withRouter(PostList)
+// export default withRouter(PostList)

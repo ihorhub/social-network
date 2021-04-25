@@ -1,13 +1,14 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { useMessage } from '../hooks/message.hook'
-// import axios from 'axios'
+import axios from 'axios'
 
 export const FileUpload = () => {
   const message = useMessage()
-  const { error, clearError, request } = useHttp()
-  const [userFile, setUserFile] = useState('')
-  const [userFileName, setUserFileName] = useState('Chose File')
+  const { error, clearError } = useHttp()
+  const [file, setFile] = useState('')
+  const [filename, setFilename] = useState('Chose File')
+  // const [uploadedFile, setUploadedFile] = useState('Chose File')
 
   useEffect(() => {
     message(error)
@@ -19,40 +20,45 @@ export const FileUpload = () => {
   }, [])
 
   const changeFormHandler = (e) => {
-    setUserFile(e.target.files[0])
-    setUserFileName(e.target.files[0].name)
+    setFile(e.target.files[0])
+    setFilename(e.target.files[0].name)
 
-    console.log(userFile)
-    console.log(userFileName)
+    console.log(file)
+    console.log(filename)
   }
 
-  const sendFileHandler = async (e) => {
+  const submitFileHandler = async (e) => {
     e.preventDefault()
     const formData = new FormData()
-    formData.append('file', userFile)
+    formData.append('file', file)
     try {
-      const data = await request('/users/upload', 'POST', formData, {
-        'Content-Type': 'multipart/form-data',
+      // const res = await request('/users/upload', 'POST', formData, {
+      //   'Content-Type': 'multipart/form-data',
+      // })
+      const res = await axios.post('/users/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       })
-      //   const data = await axios.post('/users/upload', formData, {
-      //     headers: { 'Content-Type': 'multipart/form-data' },
-      //   })
-      message(data.message)
-      console.log(data)
+      message(res.message)
+      console.log(res)
       console.log(formData)
-    } catch (e) {}
+    } catch (e) {
+      if (e.response.status === 500) {
+        console.log('it was server problem')
+      } else {
+        console.log(e.response.data.message)
+      }
+    }
   }
 
-  console.log({ userFile })
+  console.log({ file })
 
   return (
     <div>
-      <h1>main page</h1>
+      <h1>main page File Upload</h1>
 
       <div className="input-field">
         <Fragment>
-          {' '}
-          <form onSubmit={sendFileHandler}>
+          <form onSubmit={submitFileHandler}>
             <input
               id="customFile"
               placeholder="upload file"
@@ -62,6 +68,7 @@ export const FileUpload = () => {
               className="yellow-input"
               onChange={changeFormHandler}
             />
+            <label htmlFor="name">{filename}</label>
             <button is className="btn grey lighten-1 black-text">
               upload avatar
             </button>

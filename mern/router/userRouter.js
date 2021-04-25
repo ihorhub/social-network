@@ -16,27 +16,29 @@ router.post(
   userMiddleware.checkIsUserRegister,
   userController.createUser
 )
-// router.post('/register', (req, res, next) => {
-//   console.log(req)
-//   next()
-// }),
-router.post(
-  '/post',
-  // userMiddleware.checkIsIdValid,
-  postMiddleware.isPostValid,
-  postMiddleware.checkPostMiddleware,
-  authMiddleware.checkAccessTokenMiddleware,
-  userController.createPost
-)
+router.post('/users/post', (req, res, next) => {
+  const post = req.body
 
-router.post(
-  '/upload',
+  console.log(post)
+  next()
+}),
+  // router.post(
+  //   '/post',
+  //   // userMiddleware.checkIsIdValid,
+  //   postMiddleware.isPostValid,
+  //   postMiddleware.checkPostMiddleware,
+  //   // authMiddleware.checkAccessTokenMiddleware,
+  //   userController.updateUsers
+  // )
 
-  fileMiddleware.checkFile,
-  fileMiddleware.checkAvatar,
-  // authMiddleware.checkAccessTokenMiddleware,
-  userController.createPost
-)
+  router.post(
+    '/upload',
+
+    fileMiddleware.checkFile,
+    fileMiddleware.checkAvatar,
+    // authMiddleware.checkAccessTokenMiddleware,
+    userController.createPost
+  )
 router.get(
   '/:userId',
   userMiddleware.checkIsIdValid,

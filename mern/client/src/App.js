@@ -5,6 +5,7 @@ import { useAuth } from './hooks/auth.hook'
 import { AuthContext } from './context/AuthContext'
 import { Navbar } from './components/NavBar'
 import { Loader } from './components/Loader'
+
 import 'materialize-css'
 
 function App() {

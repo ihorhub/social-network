@@ -92,7 +92,7 @@ module.exports = {
 
       console.log(post)
       console.log(userId)
-      await postService.createPostRecord(user._id)
+      await postService.updatePostById(user._id)
 
       res.status(errorCodesEnum.OK).json(logAction.USER_UPDATED)
     } catch (e) {

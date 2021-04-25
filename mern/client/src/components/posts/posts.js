@@ -1,31 +1,34 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useHttp } from '../../hooks/http.hook'
 import { AuthContext } from '../../context/AuthContext'
 // import { Loader } from '../Loader'
-import PostList from './postList'
+import { PostList } from './postList'
 
 export const Posts = () => {
-  const [userPost, setUserPost] = useState({ post: '' })
+  const [form, setForm] = useState({ post: '' })
   const { request } = useHttp()
+
   const { tokens } = useContext(AuthContext)
 
-  const onPostChange = (event) => {
-    setUserPost({ ...userPost, [event.target.name]: event.target.value })
+  const changeHandler = (event) => {
+    setForm({ ...form, [event.target.name]: event.target.value })
   }
-  console.log(userPost)
+  console.log(form)
   useEffect(() => {
     window.M.updateTextFields()
   }, [])
 
-  const addPost = async () => {
+  const onSubmitPost = async (e) => {
+    e.preventDefault()
     try {
       const data = await request(
         '/users/post',
         'POST',
-        { ...userPost },
+        { ...form },
         { Authorization: { tokens } }
       )
       console.log(data)
+      console.log(form)
     } catch (e) {}
   }
 
@@ -35,20 +38,28 @@ export const Posts = () => {
       <div></div>
       <div className="input-field">
         <input
-          placeholder="Введіть post "
-          id="post"
+          placeholder="Введіть surname "
+          id="surname"
           type="text"
           name="post"
           className="yellow-input"
-          value={userPost.post}
-          onChange={onPostChange}
+          value={form.post}
+          onChange={changeHandler}
         />
         <label htmlFor="post">Post</label>
+        <button
+          className="btn yellow darken-4"
+          style={{ marginRight: 10 }}
+          onClick={onSubmitPost}
+        >
+          Enter Надіслати
+        </button>
       </div>
       <div>
-        <button onClick={() => addPost}>ADD post</button>
+        {form.map((post, index) => (
+          <PostList post={post} key={index} />
+        ))}
       </div>
-      <PostList userPost={userPost} />
     </div>
   )
 }

@@ -15,7 +15,7 @@ const {
 
 module.exports = {
   checkFile: (req, res, next) => {
-    if (req.files === nul) {
+    if (req.files === null) {
       return res.status(400).json({ message: 'No file upload' })
     }
     try {
