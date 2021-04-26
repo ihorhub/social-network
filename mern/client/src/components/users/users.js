@@ -26,7 +26,7 @@ export const Users = () => {
   if (loading) {
     return <Loader />
   }
-
+  console.log(user)
   return (
     <div>
       <h1> users list</h1>

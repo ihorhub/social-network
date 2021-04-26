@@ -16,6 +16,7 @@ module.exports = {
     try {
       const users = await userService.findUsers(req.params)
       res.json(users)
+      console.log(users)
     } catch (e) {
       next(e)
     }
@@ -96,7 +97,7 @@ module.exports = {
       const userId = req.user
       const post = req.body
       console.log(req.body)
-      await postService.createPostRecord(userId, post)
+      await postService.updateUserByPost(userId, post)
 
       res.status(errorCodesEnum.OK).json(logAction.USER_UPDATED)
     } catch (e) {

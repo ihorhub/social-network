@@ -13,7 +13,6 @@ module.exports = {
       { $set: updateObject },
       { multi: 1 }
     ),
-  //  ({_id:ObjectId("6081ecbe968a143ce43c7ae9")},{$set:{'post':'waiter'}},
-  //   {multi:1} )
+
   deleteUser: (userId) => User.findByIdAndDelete({ _Id: userId }),
 }
