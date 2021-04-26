@@ -2,11 +2,11 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { useMessage } from '../hooks/message.hook'
 import Progress from '../components/Progress'
-// import axios from 'axios'
+import axios from 'axios'
 
 export const FileUpload = () => {
   const message = useMessage()
-  const { request, error, clearError } = useHttp()
+  const { error, clearError } = useHttp()
   const [file, setFile] = useState('')
   const [filename, setFilename] = useState('Chose File')
   const [uploadedFile, setUploadedFile] = useState('Chose File')
