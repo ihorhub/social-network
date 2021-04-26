@@ -12,7 +12,7 @@ module.exports = {
   checkIsIdValid: (req, res, next) => {
     try {
       const { userId } = req.params
-      console.log(req.params)
+
       if (userId.length < 24) {
         throw new ErrorHandler(NOT_VALID_ID.message, NOT_VALID_ID.code)
       }

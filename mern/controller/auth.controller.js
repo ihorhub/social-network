@@ -9,7 +9,7 @@ module.exports = {
         body: { password },
         user,
       } = req
-      console.log(req.body)
+
       await passwordHasher.compare(password, user.password)
 
       const tokens = await authService.createRecord(user._id)

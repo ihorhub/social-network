@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useHttp } from '../../hooks/http.hook'
 import { AuthContext } from '../../context/AuthContext'
+
+// import axios from 'axios'
+
 // import { Loader } from '../Loader'
 import { PostList } from './postList'
 
@@ -8,7 +11,7 @@ export const Posts = () => {
   const [form, setForm] = useState({ post: '' })
   const { request } = useHttp()
 
-  const { tokens } = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -21,14 +24,23 @@ export const Posts = () => {
   const onSubmitPost = async (e) => {
     e.preventDefault()
     try {
+      // const res = await axios.post(
+      //   '/users/post',
+      //   { ...form },
+      // {
+      //   headers: { 'Content-Type': 'multipart/form-data' },
+      // }
+
       const data = await request(
         '/users/post',
         'POST',
         { ...form },
-        { Authorization: { tokens } }
+        {
+          Authorization: `${auth.tokens}`,
+        }
       )
+
       console.log(data)
-      console.log(form)
     } catch (e) {}
   }
 
@@ -56,9 +68,7 @@ export const Posts = () => {
         </button>
       </div>
       <div>
-        {form.map((post, index) => (
-          <PostList post={post} key={index} />
-        ))}
+        <PostList form={form} />)
       </div>
     </div>
   )

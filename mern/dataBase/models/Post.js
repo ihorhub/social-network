@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 const {
-  dataBaseTablesEnum: { POST, USER },
+  dataBaseTablesEnum: { USER, POST },
 } = require('../../constant')
 
 const postSchema = new Schema(

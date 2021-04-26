@@ -1,4 +1,5 @@
 const User = require('../dataBase/models/User')
+const POST = require('../dataBase/models/Post')
 module.exports = {
   findUsers: (filterObject) => User.find(filterObject),
 

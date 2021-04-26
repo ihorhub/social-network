@@ -12,7 +12,9 @@ const UsersList = ({ user }) => {
         <p> surname: {user.surname}--</p>
         <p> age: {user.age}--</p>
         <p> Email: {user.email}-</p>
-        <p> Comment: {user.notes}-</p>
+        <p> Post: {user.note}-</p>
+        <p> Post: {user.userData}-</p>
+        <p> Post: {user.userData}-</p>
         <button onClick={() => addComment()}>writeComment</button>
         <hr />
       </div>

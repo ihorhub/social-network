@@ -10,6 +10,7 @@ const { authService } = require('../service')
 
 module.exports = {
   checkAccessTokenMiddleware: async (req, res, next) => {
+    console.log(req.body)
     try {
       const access_token = req.get(constants.AUTHORIZATION)
 
@@ -35,6 +36,7 @@ module.exports = {
       }
 
       req.user = tokens._user_id
+      console.log(req.body)
 
       next()
     } catch (e) {

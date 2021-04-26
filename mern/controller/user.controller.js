@@ -9,11 +9,12 @@ const {
   postService,
 } = require('../service')
 const { passwordHasher } = require('../helpers')
+const USER = require('../dataBase/models/User')
 
 module.exports = {
   getAllUsers: async (req, res, next) => {
     try {
-      const users = await userService.findUsers(req.query)
+      const users = await userService.findUsers(req.params)
       res.json(users)
     } catch (e) {
       next(e)
@@ -46,18 +47,7 @@ module.exports = {
         ...req.body,
         password: hasPassword,
       })
-      await user.save()
-      if (avatar) {
-        const uploadPath = fileService.dirBuilder(
-          avatar,
-          avatar.name,
-          'photos',
-          'user',
-          user._id
-        )
-
-        await userService.updateUser(user._id, { avatar: uploadPath })
-      }
+      // await user.save()
 
       await emailService.sendMail(email, WELCOME, {
         userName: email,
@@ -67,16 +57,35 @@ module.exports = {
       next(e)
     }
   },
-
+  createFile: async (req, res, next) => {
+    try {
+      const {
+        body: { avatar, docs },
+      } = req
+      if (avatar) {
+        const uploadPath = fileService.dirBuilder(
+          avatar,
+          avatar.name,
+          'photos',
+          'user',
+          user._id
+        )
+        await userService.updateUser(user._id, { avatar: uploadPath })
+      }
+    } catch (e) {
+      next(e)
+    }
+  },
   updateUsers: async (req, res, next) => {
     try {
-      const { userId } = req.params
-      const { post } = req.body
-      console.log(req.body)
-      console.log(userId)
-      await userService.updateUserById(post, userId)
+      const userId = req.user
+      const post = req.body
 
-      res.status(errorCodesEnum.OK).json(logAction.USER_UPDATED)
+      // console.log(user)
+
+      await userService.updateUserById(userId, post)
+
+      res.status(errorCodesEnum.OK).json(post, logAction.USER_UPDATED)
     } catch (e) {
       next(e)
     }
@@ -84,15 +93,10 @@ module.exports = {
 
   createPost: async (req, res, next) => {
     try {
-      const { userId } = req.params
-      const {
-        body: { post },
-        user,
-      } = req
-
-      console.log(post)
-      console.log(userId)
-      await postService.updatePostById(user._id)
+      const userId = req.user
+      const post = req.body
+      console.log(req.body)
+      await postService.createPostRecord(userId, post)
 
       res.status(errorCodesEnum.OK).json(logAction.USER_UPDATED)
     } catch (e) {

@@ -1,7 +1,7 @@
 const Post = require('../dataBase/models/Post')
 
-const createPostRecord = async (userId) => {
-  await Post.create({ user_id: userId })
+const createPostRecord = async (userId, post) => {
+  await Post.create({ user_id: userId, ...post })
 }
 const updatePostById = async (userId, updateObject) =>
   await User.findOneAndUpdate(
