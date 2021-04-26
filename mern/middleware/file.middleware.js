@@ -3,6 +3,7 @@ const {
   JUST_ONE_PHOTO,
   TOO_BIG_FILE,
   WRONG_FILE_EXTENSION,
+  NOT_FOUND_BODY,
 } = require('../error/error.messages')
 const {
   DOCS_MIMETYPES,
@@ -16,7 +17,7 @@ const {
 module.exports = {
   checkFile: (req, res, next) => {
     if (req.files === null) {
-      return res.status(400).json({ message: 'No file upload' })
+      throw new ErrorHandler(NOT_FOUND_BODY.message, NOT_FOUND_BODY.code)
     }
     try {
       const file = req.files.file
