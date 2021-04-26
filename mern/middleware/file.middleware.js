@@ -69,7 +69,7 @@ module.exports = {
 
   checkAvatar: (req, res, next) => {
     try {
-      if (req.file.length > 1) {
+      if (req.photos.length > 1) {
         throw new ErrorHandler(JUST_ONE_PHOTO.message, JUST_ONE_PHOTO.code)
       }
 

@@ -1,20 +1,21 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { useMessage } from '../hooks/message.hook'
-import axios from 'axios'
+import Progress from '../components/Progress'
+// import axios from 'axios'
 
 export const FileUpload = () => {
   const message = useMessage()
-  const { error, clearError } = useHttp()
+  const { request, error, clearError } = useHttp()
   const [file, setFile] = useState('')
   const [filename, setFilename] = useState('Chose File')
-  // const [uploadedFile, setUploadedFile] = useState('Chose File')
+  const [uploadedFile, setUploadedFile] = useState('Chose File')
+  const [uploadPercentage, setUploadPercentage] = useState(0)
 
   useEffect(() => {
     message(error)
     clearError()
   }, [error, message, clearError])
-
   useEffect(() => {
     window.M.updateTextFields()
   }, [])
@@ -22,9 +23,6 @@ export const FileUpload = () => {
   const changeFormHandler = (e) => {
     setFile(e.target.files[0])
     setFilename(e.target.files[0].name)
-
-    console.log(file)
-    console.log(filename)
   }
 
   const submitFileHandler = async (e) => {
@@ -32,25 +30,25 @@ export const FileUpload = () => {
     const formData = new FormData()
     formData.append('file', file)
     try {
-      // const res = await request('/users/upload', 'POST', formData, {
+      // const data = await request('/users/upload', 'POST', formData, {
       //   'Content-Type': 'multipart/form-data',
       // })
       const res = await axios.post('/users/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          setUploadPercentage(
+            parseInt(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            )
+          )
+          setTimeout(() => setUploadPercentage(0), 10000)
+        },
       })
+      const uploadPath = res.data
+      setUploadedFile({ uploadPath })
       message(res.message)
-      console.log(res)
-      console.log(formData)
-    } catch (e) {
-      if (e.response.status === 500) {
-        console.log('it was server problem')
-      } else {
-        console.log(e.response.data.message)
-      }
-    }
+    } catch (e) {}
   }
-
-  console.log({ file })
 
   return (
     <div>
@@ -72,7 +70,20 @@ export const FileUpload = () => {
             <button is className="btn grey lighten-1 black-text">
               upload avatar
             </button>
+            <Progress percentage={uploadPercentage} />
           </form>
+          {uploadedFile ? (
+            <div className="row mt-5">
+              <div className="col-md-6 m-auto">
+                <h3 className="text-center">{uploadedFile.fileName}</h3>
+                <img
+                  style={{ width: '100%' }}
+                  src={uploadedFile.filePath}
+                  alt=""
+                />
+              </div>
+            </div>
+          ) : null}
         </Fragment>
 
         <hr />
@@ -80,4 +91,5 @@ export const FileUpload = () => {
     </div>
   )
 }
+
 export default FileUpload

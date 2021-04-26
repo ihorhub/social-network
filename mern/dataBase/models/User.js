@@ -12,6 +12,7 @@ const userSchema = new Schema(
     email: { type: String, required: true },
     password: { type: String, select: false },
     avatar: { type: String },
+    docs: [{ type: String }],
     post: { type: Object, select: true },
     // notes: [{ type: Schema.Types.ObjectId, ref: POST }],
   },

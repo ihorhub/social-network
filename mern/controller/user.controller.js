@@ -38,8 +38,6 @@ module.exports = {
     try {
       const {
         body: { password, email },
-        avatar,
-        docs,
       } = req
 
       const hasPassword = await passwordHasher.hash(password)
@@ -63,16 +61,28 @@ module.exports = {
       const {
         body: { avatar, docs },
       } = req
+      const userId = req.user
       if (avatar) {
         const uploadPath = fileService.dirBuilder(
           avatar,
           avatar.name,
           'photos',
           'user',
-          user._id
+          userId
         )
-        await userService.updateUser(user._id, { avatar: uploadPath })
+        await userService.updateUserById(userId, { avatar: uploadPath })
       }
+      if (docs) {
+        const uploadPath = fileService.dirBuilder(
+          docs,
+          docs.name,
+          'docs',
+          'user',
+          userId
+        )
+        await userService.updateUserById(userId, { docs: uploadPath })
+      }
+      res.status(errorCodesEnum.OK).json(uploadPath)
     } catch (e) {
       next(e)
     }

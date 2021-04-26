@@ -31,11 +31,10 @@ router.post(
 
 router.post(
   '/upload',
-
   fileMiddleware.checkFile,
   fileMiddleware.checkAvatar,
-  // authMiddleware.checkAccessTokenMiddleware,
-  userController.createPost
+  authMiddleware.checkAccessTokenMiddleware,
+  userController.createFile
 )
 router.get(
   '/:userId',
