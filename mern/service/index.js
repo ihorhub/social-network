@@ -4,4 +4,5 @@ module.exports = {
   emailService: require('./mail.service'),
   fileService: require('./file.service'),
   postService: require('./post.service'),
+  friendService: require('./friend.service'),
 }
