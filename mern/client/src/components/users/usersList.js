@@ -1,29 +1,34 @@
 import React from 'react'
 import { withRouter } from 'react-router'
+import {NavLink } from 'react-router-dom'
+
 
 const UsersList = ({ user }) => {
-  console.log(user)
-  const addComment = () => {}
+ 
 
-  return (
+  // let allPost=user.post
+  // for(const posts in allPost){
+  //   let ppp=allPost[posts]
+  //   console.log(ppp)}
+   
+ 
+  
+  return (   
+     
     <div>
       <div>
-        <p> {user.id}-- </p>
+        <p> {user._id}-- </p>
         <p> name: {user.name}--</p>
         <p> surname: {user.surname}--</p>
         <p> age: {user.age}--</p>
-        <p> Email: {user.email}-</p>
-        {/* <p>
-          Post:
-          {user.post.forEach((item) => {
-            ;<p>{item}</p>
-          })}
-        </p> */}
-        <p> Post: {user.post}-</p>
-        {/* <p> Post: {user.`${user.post}`}-</p> */}
-        console.log(user)
-        <button onClick={() => addComment()}>writeComment</button>
+        <p> Email: {user.email}-</p>     
+        <p> Post: {user.post}</p>         
+        
+        <NavLink to={'/users/posts'}>
+        <button>writeComment</button>
         <hr />
+            </NavLink>
+      
       </div>
     </div>
   )
