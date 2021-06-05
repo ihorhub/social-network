@@ -50,8 +50,7 @@ module.exports = {
       req.user = user
 
       next()
-    } catch (e) {
-      console.log(e)
+    } catch (e) {     
       next(e)
     }
   },

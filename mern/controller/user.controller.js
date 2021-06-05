@@ -15,8 +15,7 @@ module.exports = {
   getAllUsers: async (req, res, next) => {
     try {
       const users = await userService.findUsers(req.params)
-      res.json(users)
-      console.log(users)
+      res.json(users)     
     } catch (e) {
       next(e)
     }
@@ -103,12 +102,14 @@ module.exports = {
   },
 
   createPost: async (req, res, next) => {
+    console.log(req.body)
+    console.log(req.user)
     try {
       const userId = req.user
       const post = req.body
       console.log(req.body)
+      console.log(req.user)
       await postService.updateUserByPost(userId, post)
-
       res.status(errorCodesEnum.OK).json(logAction.USER_UPDATED)
     } catch (e) {
       next(e)

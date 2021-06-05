@@ -7,7 +7,7 @@ import axios from 'axios'
 export const FileUpload = () => {
   const message = useMessage()
   const { error, clearError } = useHttp()
-  const [file, setFile] = useState('')
+  const [file, setFile] = useState([])
   const [filename, setFilename] = useState('Chose File')
   const [uploadedFile, setUploadedFile] = useState('Chose File')
   const [uploadPercentage, setUploadPercentage] = useState(0)

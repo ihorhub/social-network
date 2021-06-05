@@ -13,7 +13,7 @@ const updatePostById = async (userId, updateObject) => {
 }
 
 const updateUserByPost = async (userId, updateObject) => {
-  await User.updateOne(
+  await Post.updateOne(
     { _id: userId },
     {
       $addToSet: updateObject,

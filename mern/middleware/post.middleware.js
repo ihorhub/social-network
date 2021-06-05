@@ -9,13 +9,14 @@ const Post = require('../dataBase/models/Post')
 const { postService } = require('../service')
 
 module.exports = {
-  isPostValid: (req, res, next) => {
+  isPostValid: (req, res, next) => { 
     try {
       const { error } = postValidator.createPostValidator.validate(req.body)
 
-      if (error)
-        throw new ErrorHandler(error.details[0].message, NOT_VALID_BODY.code)
+      if (error){throw new ErrorHandler(error.details[0].message, NOT_VALID_BODY.code)}
+        
       req.user = posts.user_id
+   
       next()
     } catch (e) {
       next(e)

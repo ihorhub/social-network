@@ -23,6 +23,7 @@ const UsersList = ({ user }) => {
         <p> age: {user.age}--</p>
         <p> Email: {user.email}-</p>     
         <p> Post: {user.post}</p>         
+        <p> File: {user.docs}</p>         
         
         <NavLink to={'/users/posts'}>
         <button>writeComment</button>

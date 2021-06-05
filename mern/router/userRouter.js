@@ -26,6 +26,8 @@ router.post(
 router.post(
   '/post',
   authMiddleware.checkAccessTokenMiddleware,
+  // postMiddleware.isPostValid,
+  // postMiddleware.checkPostMiddleware,
   userController.createPost
 )
 
@@ -33,7 +35,7 @@ router.post(
   '/upload',
   fileMiddleware.checkFile,
   fileMiddleware.checkAvatar,
-  authMiddleware.checkAccessTokenMiddleware,
+  // authMiddleware.checkAccessTokenMiddleware,
   userController.createFile
 )
 router.get(
